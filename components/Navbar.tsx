@@ -33,7 +33,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' : 'bg-transparent md:bg-saney-gold/10 md:backdrop-blur-md py-4'}`}>
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' : 'bg-saney-gold/10 backdrop-blur-md py-4'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             
@@ -70,7 +70,7 @@ export const Navbar: React.FC = () => {
               {/* User Connection Option */}
               <Link
                 to={isAuthenticated ? (isAdmin ? '/admin' : '/client') : '/login'}
-                className={`p-1 md:p-2 rounded-full transition-colors ${scrolled ? 'text-saney-dark hover:text-saney-gold' : 'text-saney-dark hover:text-saney-gold md:bg-saney-dark/5 md:hover:bg-saney-dark/10'}`}
+                className={`p-1 md:p-2 rounded-full transition-colors ${scrolled ? 'text-saney-dark hover:text-saney-gold' : 'text-saney-dark hover:text-saney-gold bg-saney-dark/5 hover:bg-saney-dark/10'}`}
                 title={isAuthenticated ? "Mon Espace" : "Connexion"}
               >
                 <User size={24} />
@@ -79,7 +79,7 @@ export const Navbar: React.FC = () => {
               {/* Cart Button */}
               <button
                 onClick={() => setIsCartOpen(true)}
-                className={`relative p-1 md:p-2 rounded-full transition-colors ${scrolled ? 'text-saney-dark hover:text-saney-gold' : 'text-saney-dark hover:text-saney-gold md:bg-saney-dark/5 md:hover:bg-saney-dark/10'}`}
+                className={`relative p-1 md:p-2 rounded-full transition-colors ${scrolled ? 'text-saney-dark hover:text-saney-gold' : 'text-saney-dark hover:text-saney-gold bg-saney-dark/5 hover:bg-saney-dark/10'}`}
               >
                 <ShoppingBag size={24} />
                 {itemCount > 0 && (

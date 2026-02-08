@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { useData } from '../../context/DataContext';
-import { User, Shield, Search } from 'lucide-react';
+import { User, Shield, Search, Trash2 } from 'lucide-react';
 
 export const AdminUsersPage: React.FC = () => {
-  const { users } = useData();
+  const { users, deleteUser } = useData();
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleDelete = (id: string, name: string) => {
+    if (window.confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${name} ?`)) {
+      deleteUser(id);
+    }
+  };
 
   const filteredUsers = users.filter(user => 
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -35,6 +41,7 @@ export const AdminUsersPage: React.FC = () => {
               <th className="px-6 py-4 text-sm font-semibold text-gray-600">Rôle</th>
               <th className="px-6 py-4 text-sm font-semibold text-gray-600">Date d'inscription</th>
               <th className="px-6 py-4 text-sm font-semibold text-gray-600">Statut</th>
+              <th className="px-6 py-4 text-sm font-semibold text-gray-600 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -74,6 +81,15 @@ export const AdminUsersPage: React.FC = () => {
                   <span className="inline-flex px-2 py-1 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
                     Actif
                   </span>
+                </td>
+                <td className="px-6 py-4 text-right">
+                  <button
+                    onClick={() => handleDelete(user.id, user.name)}
+                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                    title="Supprimer l'utilisateur"
+                  >
+                    <Trash2 size={18} />
+                  </button>
                 </td>
               </tr>
             ))}

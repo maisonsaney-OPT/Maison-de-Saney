@@ -37,6 +37,7 @@ interface DataContextType {
   updateOrderStatus: (id: string, status: Order['status']) => void;
 
   addUser: (user: User) => void;
+  deleteUser: (id: string) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -130,6 +131,10 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  const deleteUser = (id: string) => {
+    setUsers(users.filter(u => u.id !== id));
+  };
+
   return (
     <DataContext.Provider value={{
       services, products, galleryImages, formations, questionnaires, contactMessages, users, orders,
@@ -140,7 +145,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       addQuestionnaireAnswer,
       addContactMessage, markMessageAsRead,
       addOrder, updateOrderStatus,
-      addUser
+      addUser, deleteUser
     }}>
       {children}
     </DataContext.Provider>
