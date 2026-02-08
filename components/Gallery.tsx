@@ -1,13 +1,35 @@
 import React from 'react';
-import { TESTIMONIALS, INSTAGRAM_URL, GALLERY_IMAGES } from '../constants';
+import { TESTIMONIALS, INSTAGRAM_URL } from '../constants';
+import { useData } from '../context/DataContext';
 import { Star } from 'lucide-react';
 
 export const Gallery: React.FC = () => {
+  const { galleryImages } = useData();
+
+  // Take first 4 images for the masonry layout or use defaults if empty
+  const displayImages = galleryImages.length > 0 ? galleryImages : [];
+  
   const tiles = [
-    { img: GALLERY_IMAGES[0], alt: 'Vitrine', span: 'col-span-2 row-span-2' },
-    { img: GALLERY_IMAGES[1], alt: 'Cabine', span: 'col-span-1 row-span-1' },
-    { img: GALLERY_IMAGES[2], alt: 'Collage detail', span: 'col-span-1 row-span-2' },
-    { img: GALLERY_IMAGES[3], alt: 'Collage ambiance', span: 'col-span-1 row-span-1' },
+    { 
+      img: displayImages[0]?.url || 'https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&q=80', 
+      alt: displayImages[0]?.category || 'Vitrine', 
+      span: 'col-span-2 row-span-2' 
+    },
+    { 
+      img: displayImages[1]?.url || 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80', 
+      alt: displayImages[1]?.category || 'Cabine', 
+      span: 'col-span-1 row-span-1' 
+    },
+    { 
+      img: displayImages[2]?.url || 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&q=80', 
+      alt: displayImages[2]?.category || 'Detail', 
+      span: 'col-span-1 row-span-2' 
+    },
+    { 
+      img: displayImages[3]?.url || 'https://images.unsplash.com/photo-1519017715179-c6b2f6ee84f1?auto=format&fit=crop&q=80', 
+      alt: displayImages[3]?.category || 'Ambiance', 
+      span: 'col-span-1 row-span-1' 
+    },
   ];
 
   return (

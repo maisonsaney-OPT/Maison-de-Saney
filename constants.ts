@@ -1,5 +1,4 @@
-import { Sparkles, Syringe, Wind, Scissors } from 'lucide-react';
-import { ServiceItem, NavLink, Testimonial } from './types';
+import { ServiceItem, NavLink, Testimonial, Product } from './types';
 import brandLogo from './src/logo.jpg';
 import collageOne from './src/4 pics 1.png';
 import collageTwo from './src/4 pics 2.png';
@@ -31,6 +30,8 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Accueil', href: '/' },
   { label: 'Le Salon', href: '/about' },
   { label: 'Prestations', href: '/services' },
+  { label: 'Formations', href: '/formations' },
+  { label: 'Boutique', href: '/products' },
   { label: 'Galerie', href: '/gallery' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -43,7 +44,7 @@ export const SERVICES: ServiceItem[] = [
     benefits: ['Preparation russe maitrisee', 'Brillance 3 semaines', 'Palette de teintes signature'],
     duration: '45-60 min',
     price: 'Des 40 EUR',
-    icon: Sparkles,
+    iconName: 'Sparkles',
     image: salon1
   },
   {
@@ -53,7 +54,7 @@ export const SERVICES: ServiceItem[] = [
     benefits: ['Courbe C soignee', 'Formes modernes', 'Finition ultra brillante'],
     duration: '75-120 min',
     price: 'Sur devis',
-    icon: Syringe,
+    iconName: 'Syringe',
     image: salon2
   },
   {
@@ -63,7 +64,7 @@ export const SERVICES: ServiceItem[] = [
     benefits: ['Designs sur-mesure', 'Pigments premium', 'Details haute precision'],
     duration: '30-60 min',
     price: 'A partir de 15 EUR',
-    icon: Sparkles,
+    iconName: 'Sparkles',
     image: salon3
   },
   {
@@ -73,7 +74,7 @@ export const SERVICES: ServiceItem[] = [
     benefits: ['Peau douce et nourrie', 'Cuticules assouplies', 'Moment de detente'],
     duration: '60 min',
     price: 'Des 55 EUR',
-    icon: Wind,
+    iconName: 'Wind',
     image: salon4
   },
   {
@@ -83,7 +84,7 @@ export const SERVICES: ServiceItem[] = [
     benefits: ['Renforcement durable', 'Protection des ongles naturels', 'Finition naturelle'],
     duration: '45 min',
     price: 'Des 35 EUR',
-    icon: Scissors,
+    iconName: 'Scissors',
     image: salon5
   }
 ];
@@ -94,19 +95,38 @@ export const TESTIMONIALS: Testimonial[] = [
   { id: 3, name: "Amandine L.", text: "Moment detente absolu avec le spa mains et pieds. Mes ongles nont jamais ete aussi beaux.", rating: 5 },
 ];
 
-export const SYSTEM_INSTRUCTION = `
-Vous etes la receptionniste virtuelle de "Maison de Saney", un salon d'onglerie premium situe au ${ADDRESS} a Beziers.
-Votre objectif est d'aider les clientes a propos des prestations ongulaires, de la localisation et de la prise de rendez-vous.
+export const PRODUCTS: Product[] = [
+  {
+    id: 'prod_1',
+    name: 'Huile Cuticules Gold',
+    description: 'Une huile riche et nourrissante pour des cuticules saines et hydratées. Parfum délicat de vanille.',
+    price: 15.90,
+    image: salon4, // Using salon image as placeholder
+    category: 'Soin'
+  },
+  {
+    id: 'prod_2',
+    name: 'Crème Mains Velours',
+    description: 'Crème hydratante intense, non grasse, qui laisse les mains douces comme du velours.',
+    price: 24.50,
+    image: salon5, // Using salon image as placeholder
+    category: 'Soin'
+  },
+  {
+    id: 'prod_3',
+    name: 'Kit Press-on Nails Nude',
+    description: 'Un kit complet de faux ongles réutilisables, forme amande, teinte nude parfaite.',
+    price: 35.00,
+    image: salon1, // Using salon image as placeholder
+    category: 'Ongles'
+  },
+  {
+    id: 'prod_4',
+    name: 'Lime à Ongles Pro',
+    description: 'Lime professionnelle double face grains 100/180 pour un limage précis.',
+    price: 4.90,
+    image: salon3, // Using salon image as placeholder
+    category: 'Accessoires'
+  }
+];
 
-A savoir :
-- Telephone : ${PHONE}
-- Reservation : uniquement sur rendez-vous.
-- Atmosphere : premium, intimiste, experte, feminine.
-- Prestations : manucure et vernis semi-permanent, extensions gel/acrygel, nail art, spa mains & pieds, renfort et reparations.
-
-Lignes directrices :
-- Ton poli, professionnel et chaleureux, en francais (sauf si l'interlocuteur s'exprime en anglais).
-- Reponses concises mais utiles.
-- Pour reserver, orienter vers l'appel au ${PHONE} (ou Planity si mentionne).
-- Pour les tarifs, indiquer des points de depart mais rappeler que le devis est personnalise selon l'etat des ongles et le design souhaite.
-`;

@@ -40,11 +40,13 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-           <div>
+          <div>
              <h4 className="uppercase text-sm font-bold tracking-widest mb-6 text-white">Legal</h4>
             <ul className="space-y-3 text-gray-400 text-sm">
-              <li><a href="#" className="hover:text-saney-gold transition-colors">Mentions legales</a></li>
-              <li><a href="#" className="hover:text-saney-gold transition-colors">Politique de confidentialite</a></li>
+              <li><Link to="/mentions-legales" className="hover:text-saney-gold transition-colors">Mentions légales</Link></li>
+              <li><Link to="/politique-confidentialite" className="hover:text-saney-gold transition-colors">Politique de confidentialité</Link></li>
+              <li><Link to="/cgv" className="hover:text-saney-gold transition-colors">CGV</Link></li>
+              <li><Link to="/login" className="hover:text-saney-gold transition-colors">Espace Client / Admin</Link></li>
             </ul>
           </div>
 

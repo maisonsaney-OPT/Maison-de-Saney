@@ -1,8 +1,17 @@
 import React from 'react';
-import { SERVICES, SERVICE_IMAGES } from '../constants';
-import { Clock, Tag } from 'lucide-react';
+import { useData } from '../context/DataContext';
+import { Clock, Tag, Sparkles, Syringe, Wind, Scissors } from 'lucide-react';
+
+const ICON_MAP: Record<string, React.ElementType> = {
+  Sparkles,
+  Syringe,
+  Wind,
+  Scissors
+};
 
 export const Services: React.FC = () => {
+  const { services } = useData();
+
   return (
     <div className="bg-saney-cream py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -16,8 +25,10 @@ export const Services: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {SERVICES.map((service, idx) => {
-            const photo = SERVICE_IMAGES[idx % SERVICE_IMAGES.length];
+          {services.map((service, idx) => {
+            const photo = service.image || 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&q=80';
+            const Icon = service.iconName ? ICON_MAP[service.iconName] : null;
+            
             return (
             <div key={service.id} className="bg-white group hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100">
               <div className="relative h-64 overflow-hidden">
@@ -27,9 +38,11 @@ export const Services: React.FC = () => {
                   className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm p-3 rounded-full text-saney-gold shadow-lg">
-                  {service.icon && <service.icon size={24} />}
-                </div>
+                {Icon && (
+                  <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm p-3 rounded-full text-saney-gold shadow-lg">
+                    <Icon size={24} />
+                  </div>
+                )}
               </div>
               
               <div className="p-8">

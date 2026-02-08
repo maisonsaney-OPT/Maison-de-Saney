@@ -5,7 +5,7 @@ import { APP_NAME, BRAND_LOGO, HERO_IMAGE, LOCAL_COLLAGES } from '../constants';
 
 export const Hero: React.FC = () => {
   return (
-    <div className="relative h-[90vh] md:h-screen min-h-[520px] flex items-center justify-center overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
@@ -23,7 +23,7 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto text-white space-y-8 animate-fade-in-up">
+      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto text-white space-y-8 animate-fade-in-up pt-24 pb-20">
         <div className="mx-auto w-fit px-4 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center gap-3 shadow-lg">
           <div className="h-12 w-12 rounded-full overflow-hidden border border-white/50 bg-white/20">
             <img src={BRAND_LOGO} alt={`${APP_NAME} logo`} className="h-full w-full object-cover" />
