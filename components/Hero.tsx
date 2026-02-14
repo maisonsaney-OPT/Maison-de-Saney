@@ -41,7 +41,7 @@ export const Hero: React.FC = () => {
           Maison de Saney
         </h1>
         <p className="text-lg md:text-xl font-light text-gray-200 max-w-2xl mx-auto leading-relaxed">
-          Manucures expertes, extensions gel et nail art signature dans un cadre intimiste au coeur de Beziers.
+          OSEZ CROIRE EN VOTRE POTENTIEL, C'EST AINSI QUE NAISSENT LES PLUS BELLES REUSSITES.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">

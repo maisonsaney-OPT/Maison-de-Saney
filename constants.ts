@@ -1,5 +1,5 @@
 import { ServiceItem, NavLink, Testimonial, Product } from './types';
-import brandLogo from './src/logo.jpg';
+import brandLogo from './src/logo.jpeg';
 import collageOne from './src/4 pics 1.png';
 import collageTwo from './src/4 pics 2.png';
 import heroImageMobile from './src/accueil.PNG';
