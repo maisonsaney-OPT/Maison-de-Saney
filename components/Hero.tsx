@@ -38,7 +38,7 @@ export const Hero: React.FC = () => {
           Salon d'onglerie & Nail Art
         </p>
         <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-medium leading-tight mb-6">
-          Maison de Saney
+          {APP_NAME}
         </h1>
         <p className="text-lg md:text-xl font-light text-gray-200 max-w-2xl mx-auto leading-relaxed">
           OSEZ CROIRE EN VOTRE POTENTIEL, C'EST AINSI QUE NAISSENT LES PLUS BELLES REUSSITES.

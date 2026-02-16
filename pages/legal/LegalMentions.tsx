@@ -9,7 +9,7 @@ export const LegalMentions: React.FC = () => {
         <section>
           <h2 className="text-xl font-bold text-gray-900 mb-3">1. Éditeur du site</h2>
           <p>
-            Le site Maison de Saney est édité par [Nom de l'entreprise ou du propriétaire], 
+            Le site Maison Saney est édité par [Nom de l'entreprise ou du propriétaire], 
             [Forme juridique : SAS, SARL, Auto-entrepreneur...], au capital de [Montant] €, 
             immatriculée au Registre du Commerce et des Sociétés de [Ville] sous le numéro [Numéro SIRET].
           </p>

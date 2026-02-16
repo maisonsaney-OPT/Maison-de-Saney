@@ -19,7 +19,7 @@ export const About: React.FC = () => {
                 >
                   <img
                     src={img}
-                    alt="Salon Maison de Saney"
+                    alt="Salon Maison Saney"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </a>
@@ -39,7 +39,7 @@ export const About: React.FC = () => {
             </div>
             
             <p className="text-gray-600 text-lg leading-relaxed">
-              Situe au coeur de Beziers, Maison de Saney est un salon intimiste dedie a la beaute des mains et des pieds. Nous avons imagine un espace chaleureux ou chaque detail compte, du soin des cuticules aux finitions miroir.
+              Situe au coeur de Beziers, Maison Saney est un salon intimiste dedie a la beaute des mains et des pieds. Nous avons imagine un espace chaleureux ou chaque detail compte, du soin des cuticules aux finitions miroir.
             </p>
 
             <p className="text-gray-600 text-lg leading-relaxed">

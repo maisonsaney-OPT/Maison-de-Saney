@@ -10,12 +10,12 @@ import salon4 from './src/salon 4.PNG';
 import salon5 from './src/salon 5 massage room.PNG';
 import vitrine from './src/vitrine.PNG';
 
-export const APP_NAME = "Maison de Saney";
+export const APP_NAME = "Maison Saney";
 export const BRAND_LOGO = brandLogo;
 export const ADDRESS = "18 Av. Jean Moulin, 34500 Beziers";
 export const PHONE = "06 22 71 90 56";
 export const SOCIAL_INSTAGRAM = "@maisondesaney";
-export const SOCIAL_FACEBOOK = "Maison de Saney";
+export const SOCIAL_FACEBOOK = "Maison Saney";
 export const INSTAGRAM_URL = "https://www.instagram.com/maisondesaney/";
 export const PLANITY_URL = "https://www.planity.com/maison-de-saney-34500-beziers";
 export const LOCAL_COLLAGES = [collageOne, collageTwo];

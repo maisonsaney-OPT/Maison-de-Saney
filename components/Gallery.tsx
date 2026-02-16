@@ -60,7 +60,7 @@ export const Gallery: React.FC = () => {
         <div>
            <div className="text-center mb-12">
             <h2 className="text-saney-gold text-sm font-bold tracking-[0.2em] uppercase mb-3">Galerie</h2>
-            <h3 className="font-serif text-4xl text-white">L'Univers Maison de Saney</h3>
+            <h3 className="font-serif text-4xl text-white">L'Univers Maison Saney</h3>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 h-[600px]">
             {tiles.map((tile, idx) => (

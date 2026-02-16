@@ -1,6 +1,6 @@
-# Maison de Saney
+# Maison Saney
 
-Site vitrine pour le salon d'onglerie "Maison de Saney" à Béziers.
+Site vitrine pour le salon d'onglerie "Maison Saney" à Béziers.
 
 ## Technologies
 

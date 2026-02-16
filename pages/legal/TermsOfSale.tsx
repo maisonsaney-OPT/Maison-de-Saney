@@ -9,7 +9,7 @@ export const TermsOfSale: React.FC = () => {
         <section>
           <h2 className="text-xl font-bold text-gray-900 mb-3">1. Objet</h2>
           <p>
-            Les présentes conditions générales de vente régissent les relations contractuelles entre Maison de Saney et son client, 
+            Les présentes conditions générales de vente régissent les relations contractuelles entre Maison Saney et son client, 
             les deux parties les acceptant sans réserve. Ces conditions générales de vente prévaudront sur toutes autres conditions 
             figurant dans tout autre document, sauf dérogation préalable, expresse et écrite.
           </p>
@@ -18,7 +18,7 @@ export const TermsOfSale: React.FC = () => {
         <section>
           <h2 className="text-xl font-bold text-gray-900 mb-3">2. Produits et Services</h2>
           <p>
-            Les produits et services offerts sont ceux qui figurent dans le catalogue publié sur le site de Maison de Saney. 
+            Les produits et services offerts sont ceux qui figurent dans le catalogue publié sur le site de Maison Saney. 
             Ces produits et services sont offerts dans la limite des stocks disponibles. 
             Chaque produit est accompagné d'un descriptif établi par le fournisseur.
           </p>
@@ -29,7 +29,7 @@ export const TermsOfSale: React.FC = () => {
           <p>
             Les prix figurant dans le catalogue sont des prix TTC en euro tenant compte de la TVA applicable au jour de la commande; 
             tout changement du taux pourra être répercuté sur le prix des produits ou des services. 
-            Maison de Saney se réserve le droit de modifier ses prix à tout moment, étant toutefois entendu que le prix figurant 
+            Maison Saney se réserve le droit de modifier ses prix à tout moment, étant toutefois entendu que le prix figurant 
             au catalogue le jour de la commande sera le seul applicable à l'acheteur.
           </p>
         </section>

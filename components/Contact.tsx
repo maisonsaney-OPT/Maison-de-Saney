@@ -173,7 +173,7 @@ export const Contact: React.FC = () => {
           />
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="bg-white/90 backdrop-blur-md px-8 py-6 shadow-xl text-center border-2 border-white">
-              <p className="font-serif text-xl text-saney-dark font-bold mb-1">Maison de Saney</p>
+              <p className="font-serif text-xl text-saney-dark font-bold mb-1">Maison Saney</p>
               <p className="font-serif text-lg text-gray-800">18 Av. Jean Moulin</p>
               <p className="text-sm text-gray-600">34500 Béziers</p>
               <div className="mt-4 pt-4 border-t border-gray-200">
