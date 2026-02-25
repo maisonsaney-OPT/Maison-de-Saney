@@ -2,13 +2,40 @@ import { ServiceItem, NavLink, Testimonial, Product } from './types';
 import brandLogo from './src/logo.jpeg';
 import collageOne from './src/4 pics 1.png';
 import collageTwo from './src/4 pics 2.png';
-import heroImageMobile from './src/accueil.PNG';
+import heroImageMobile from './src/9.png';
 import salon1 from './src/salon 1.PNG';
 import salon2 from './src/salon 2.PNG';
 import salon3 from './src/salon 3.PNG';
 import salon4 from './src/salon 4.PNG';
 import salon5 from './src/salon 5 massage room.PNG';
 import vitrine from './src/vitrine.PNG';
+import about1 from './src/8.png';
+import about2 from './src/13.png';
+import about3 from './src/17.png';
+
+// Gallery Imports
+import g1 from './src/gallery section/1.png';
+import g2 from './src/gallery section/2.png';
+import g3 from './src/gallery section/3.png';
+import g4 from './src/gallery section/4.png';
+import g5 from './src/gallery section/5.png';
+import g6 from './src/gallery section/6.png';
+import g7 from './src/gallery section/7.png';
+import g8 from './src/gallery section/8.png';
+import g9 from './src/gallery section/9.png';
+import g10 from './src/gallery section/10.png';
+import g12 from './src/gallery section/12.png';
+import g14 from './src/gallery section/14.png';
+import gOne from './src/gallery section/one.png';
+import gFive from './src/gallery section/five.png';
+import gSeven from './src/gallery section/seven.png';
+import img2 from './src/2.png';
+import img3 from './src/3.png';
+import img6 from './src/6.png';
+import img10 from './src/10.png';
+import img11 from './src/11.png';
+import img16 from './src/16.png';
+import nails from './src/nails.png';
 
 export const APP_NAME = "Maison Saney";
 export const BRAND_LOGO = brandLogo;
@@ -21,9 +48,13 @@ export const PLANITY_URL = "https://www.planity.com/maison-de-saney-34500-bezier
 export const LOCAL_COLLAGES = [collageOne, collageTwo];
 export const HERO_IMAGE = collageOne;
 export const HERO_IMAGE_MOBILE = heroImageMobile;
-export const ABOUT_IMAGES = [salon1, salon2, salon3, salon4];
+export const ABOUT_IMAGES = [about1, about2, about3];
 export const SERVICE_IMAGES = [salon1, salon2, salon3, salon4, salon5];
-export const GALLERY_IMAGES = [vitrine, salon5, collageOne, collageTwo];
+export const GALLERY_IMAGES = [
+  vitrine, salon5, collageOne, collageTwo,
+  g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g12, g14, gOne, gFive, gSeven,
+  img2, img3, img6, img10, img11, img16, nails
+];
 export const CONTACT_IMAGE = vitrine;
 
 export const NAV_LINKS: NavLink[] = [

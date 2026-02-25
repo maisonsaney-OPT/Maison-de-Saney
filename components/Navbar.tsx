@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { NAV_LINKS, PHONE, APP_NAME, BRAND_LOGO } from '../constants';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import menuBg from '../src/4.png';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -103,38 +104,49 @@ export const Navbar: React.FC = () => {
         />
 
         {/* Sidebar Panel */}
-        <div className={`absolute inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl flex flex-col h-full transform transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          
-          {/* Header */}
-          <div className="px-8 py-6 flex items-center justify-between border-b border-gray-100">
-            <span className="font-serif text-2xl text-saney-dark font-bold tracking-wide">Menu</span>
-            <button 
-              onClick={() => setIsOpen(false)}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500"
-            >
-              <X size={28} />
-            </button>
-          </div>
+        <div 
+          className={`absolute inset-y-0 right-0 max-w-md w-full shadow-2xl flex flex-col h-full transform transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          style={{
+            backgroundImage: `url(${menuBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        >
+          {/* Overlay to ensure text readability */}
+          <div className="absolute inset-0 bg-white/70 backdrop-blur-sm z-0"></div>
 
-          {/* Search Bar */}
-          <div className="px-8 py-6 border-b border-gray-100 bg-gray-50/50">
-            <form onSubmit={handleSearch} className="relative">
-              <input
-                type="text"
-                placeholder="Rechercher..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-saney-gold focus:ring-1 focus:ring-saney-gold outline-none bg-white transition-all"
-              />
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-            </form>
-          </div>
+          <div className="relative z-10 flex flex-col h-full">
+            {/* Header */}
+            <div className="px-8 py-6 flex items-center justify-between border-b border-gray-100/50">
+              <span className="font-serif text-2xl text-saney-dark font-bold tracking-wide">Menu</span>
+              <button 
+                onClick={() => setIsOpen(false)}
+                className="p-2 hover:bg-gray-100/50 rounded-full transition-colors text-gray-500"
+              >
+                <X size={28} />
+              </button>
+            </div>
 
-          {/* Navigation Links */}
-          <div className="flex-1 overflow-y-auto px-8 py-8 space-y-4">
-            {/* Mobile Connection Options */}
-            {isAuthenticated ? (
-              <div className="mb-6 space-y-3 pb-6 border-b border-gray-100">
+            {/* Search Bar */}
+            <div className="px-8 py-6 border-b border-gray-100/50 bg-gray-50/30">
+              <form onSubmit={handleSearch} className="relative">
+                <input
+                  type="text"
+                  placeholder="Rechercher..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200/60 focus:border-saney-gold focus:ring-1 focus:ring-saney-gold outline-none bg-white/80 transition-all"
+                />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              </form>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="flex-1 overflow-y-auto px-8 py-8 space-y-4">
+              {/* Mobile Connection Options */}
+              {isAuthenticated ? (
+                <div className="mb-6 space-y-3 pb-6 border-b border-gray-100/50">
                 <Link
                   to={isAdmin ? '/admin' : '/client'}
                   onClick={() => setIsOpen(false)}
@@ -208,11 +220,11 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Footer Info */}
-          <div className="p-8 border-t border-gray-100 bg-gray-50 text-center">
+          <div className="p-8 border-t border-gray-100/50 bg-gray-50/30 text-center">
             <p className="font-serif text-lg text-saney-dark mb-2">{APP_NAME}</p>
             <p className="text-sm text-gray-500">Ouvert du Lundi au Samedi</p>
           </div>
-
+          </div>
         </div>
       </div>
     </>

@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import { APP_NAME } from '../constants';
 import { useData } from '../context/DataContext';
+import img2 from '../src/2.png';
+import img3 from '../src/3.png';
+import img6 from '../src/6.png';
+import img10 from '../src/10.png';
+import img11 from '../src/11.png';
+import img16 from '../src/16.png';
+import nails from '../src/nails.png';
+import bg15 from '../src/15.png';
 
 export const FormationsPage: React.FC = () => {
   const { formations, addQuestionnaireAnswer } = useData();
   const [selectedFormationId, setSelectedFormationId] = useState<string>('');
+  const heroImages = [img2, img3, img6, img11, img10, img16, nails];
+  // Infinite scroll animation logic is handled via CSS
   
   const [formData, setFormData] = useState({
     fullName: '',
@@ -94,6 +104,52 @@ export const FormationsPage: React.FC = () => {
 
   return (
     <div className="pt-24 pb-16 bg-saney-cream min-h-screen">
+      <div className="w-full mb-16 overflow-hidden relative">
+        <div className="relative w-full">
+          {/* Infinite Scroll Container */}
+          <div className="flex w-full group">
+            <div className="flex animate-scroll whitespace-nowrap">
+              {[...heroImages, ...heroImages].map((src, idx) => (
+                <div key={idx} className="flex-shrink-0 w-[40vh] h-[40vh] md:w-[60vh] md:h-[60vh] relative animate-zoom-pulse origin-center">
+                  <img
+                    src={src}
+                    alt={`Formation ${idx}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="flex animate-scroll whitespace-nowrap" aria-hidden="true">
+              {[...heroImages, ...heroImages].map((src, idx) => (
+                <div key={`dup-${idx}`} className="flex-shrink-0 w-[40vh] h-[40vh] md:w-[60vh] md:h-[60vh] relative animate-zoom-pulse origin-center">
+                  <img
+                    src={src}
+                    alt={`Formation ${idx}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Scrolling Tape Overlay */}
+        <div className="absolute bottom-0 left-0 w-full bg-saney-dark/95 border-t border-saney-gold/20 backdrop-blur-sm z-30 py-3 overflow-hidden">
+          <div className="flex animate-scroll-slow whitespace-nowrap">
+            {[...Array(20)].map((_, i) => (
+              <span key={i} className="mx-8 text-xs md:text-sm font-bold tracking-[0.2em] uppercase text-saney-gold/90 flex items-center gap-8">
+                EXPERTISE PARFAITE <span className="text-white/50">•</span>
+                FORMATION D'EXCELLENCE <span className="text-white/50">•</span>
+                EXPERTS ONGLES <span className="text-white/50">•</span>
+                EXPERTS SOINS <span className="text-white/50">•</span>
+                MAÎTRISE TECHNIQUE <span className="text-white/50">•</span>
+                ART & PASSION <span className="text-white/50">•</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header / Intro */}
@@ -138,7 +194,15 @@ export const FormationsPage: React.FC = () => {
         )}
 
         {/* Questionnaire Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+        <div
+          className="rounded-2xl shadow-xl p-8 md:p-12"
+          style={{
+            backgroundImage: `url(${bg15})`,
+            backgroundRepeat: 'repeat',
+            backgroundSize: 'contain',
+            backgroundPosition: 'center top'
+          }}
+        >
           <h2 className="font-serif text-2xl text-center mb-2 uppercase tracking-widest text-saney-dark">Questionnaire de pré-inscription</h2>
           <p className="text-center text-gray-500 mb-10 uppercase text-sm tracking-wider">
             {selectedFormationId 
@@ -149,7 +213,7 @@ export const FormationsPage: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-10">
             
             {/* Identity */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white/50 backdrop-blur-sm rounded-xl p-6">
               <div className="space-y-2">
                 <label className="block text-sm font-bold uppercase tracking-wide text-gray-700">Nom et Prénom</label>
                 <input
@@ -157,7 +221,7 @@ export const FormationsPage: React.FC = () => {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  className="w-full border-b border-gray-300 focus:border-saney-gold outline-none py-2 bg-transparent transition-colors"
+                  className="w-full border-b border-gray-300 focus:border-saney-gold outline-none py-2 bg-white/70 backdrop-blur-sm transition-colors"
                   placeholder="Votre réponse"
                   required
                 />
@@ -169,7 +233,7 @@ export const FormationsPage: React.FC = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full border-b border-gray-300 focus:border-saney-gold outline-none py-2 bg-transparent transition-colors"
+                  className="w-full border-b border-gray-300 focus:border-saney-gold outline-none py-2 bg-white/70 backdrop-blur-sm transition-colors"
                   placeholder="votre@email.com"
                   required
                 />
@@ -177,19 +241,19 @@ export const FormationsPage: React.FC = () => {
             </div>
 
             {/* Q1 */}
-            <div className="space-y-3">
+            <div className="space-y-3 bg-white/50 backdrop-blur-sm rounded-xl p-6">
               <label className="block font-medium text-gray-800">1. Pourquoi souhaitez-vous suivre une formation d'onglerie ?</label>
               <textarea
                 name="motivation"
                 value={formData.motivation}
                 onChange={handleInputChange}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-saney-gold outline-none"
+                className="w-full p-3 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-lg focus:ring-1 focus:ring-saney-gold outline-none"
                 rows={3}
               />
             </div>
 
             {/* Q2 */}
-            <div className="space-y-3">
+            <div className="space-y-3 bg-white/50 backdrop-blur-sm rounded-xl p-6">
               <label className="block font-medium text-gray-800">2. Avez-vous déjà une expérience dans l'esthétique ou l'onglerie ?</label>
               <div className="flex gap-4">
                 {['oui', 'non'].map((option) => (
@@ -220,26 +284,26 @@ export const FormationsPage: React.FC = () => {
                   value={formData.experienceDetails}
                   onChange={handleInputChange}
                   placeholder="Si oui, précisez..."
-                  className="w-full border-b border-gray-300 focus:border-saney-gold outline-none py-2 bg-transparent text-sm mt-2"
+                  className="w-full border-b border-gray-300 focus:border-saney-gold outline-none py-2 bg-white/70 backdrop-blur-sm text-sm mt-2"
                 />
               )}
             </div>
 
             {/* Q3 */}
-            <div className="space-y-3">
+            <div className="space-y-3 bg-white/50 backdrop-blur-sm rounded-xl p-6">
               <label className="block font-medium text-gray-800">3. Qu'attendez-vous principalement de cette formation ?</label>
               <p className="text-sm text-gray-500 italic">(ex : apprendre les bases, gagner en confiance, se perfectionner, créer une activité...)</p>
               <textarea
                 name="expectations"
                 value={formData.expectations}
                 onChange={handleInputChange}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-saney-gold outline-none transition-shadow"
+                className="w-full p-3 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-lg focus:ring-1 focus:ring-saney-gold outline-none transition-shadow"
                 rows={3}
               />
             </div>
 
             {/* Q4 */}
-            <div className="space-y-3">
+            <div className="space-y-3 bg-white/50 backdrop-blur-sm rounded-xl p-6">
               <label className="block font-medium text-gray-800">4. Préférez-vous :</label>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {['La pratique', 'La théorie', 'Un équilibre entre les deux'].map((option) => (
@@ -269,12 +333,12 @@ export const FormationsPage: React.FC = () => {
                 value={formData.learningPreferenceReason}
                 onChange={handleInputChange}
                 placeholder="Pourquoi ?"
-                className="w-full border-b border-gray-300 focus:border-saney-gold outline-none py-2 bg-transparent text-sm mt-2"
+                className="w-full border-b border-gray-300 focus:border-saney-gold outline-none py-2 bg-white/70 backdrop-blur-sm text-sm mt-2"
               />
             </div>
 
             {/* Q5 */}
-            <div className="space-y-3">
+            <div className="space-y-3 bg-white/50 backdrop-blur-sm rounded-xl p-6">
               <label className="block font-medium text-gray-800">5. Quelles techniques vous intéressent le plus ?</label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {['Gel', 'Semi-permanent', 'Capsules', 'Chablon', 'Nail art'].map((tech) => (
@@ -304,13 +368,13 @@ export const FormationsPage: React.FC = () => {
                   name="otherTechnique"
                   value={formData.otherTechnique}
                   onChange={handleInputChange}
-                  className="flex-1 border-b border-gray-300 focus:border-saney-gold outline-none py-1 bg-transparent text-sm"
+                  className="flex-1 border-b border-gray-300 focus:border-saney-gold outline-none py-1 bg-white/70 backdrop-blur-sm text-sm"
                 />
               </div>
             </div>
 
             {/* Q6 */}
-            <div className="space-y-3">
+            <div className="space-y-3 bg-white/50 backdrop-blur-sm rounded-xl p-6">
               <label className="block font-medium text-gray-800">6. Quel est votre projet après la formation ?</label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {['Travailler en institut', 'Travailler à domicile', 'Ouvrir votre propre activité', 'En réflexion'].map((project) => (
@@ -339,12 +403,12 @@ export const FormationsPage: React.FC = () => {
                 value={formData.futureProjectDetails}
                 onChange={handleInputChange}
                 placeholder="Précisez si nécessaire..."
-                className="w-full border-b border-gray-300 focus:border-saney-gold outline-none py-2 bg-transparent text-sm mt-2"
+                className="w-full border-b border-gray-300 focus:border-saney-gold outline-none py-2 bg-white/70 backdrop-blur-sm text-sm mt-2"
               />
             </div>
 
             {/* Q7 */}
-            <div className="space-y-3">
+            <div className="space-y-3 bg-white/50 backdrop-blur-sm rounded-xl p-6">
               <label className="block font-medium text-gray-800">7. Combien de temps pouvez-vous consacrer à l'entraînement après la formation ?</label>
               <div className="grid grid-cols-1 gap-3">
                 {['Moins de 2 heures par semaine', '2 à 5 heures par semaine', 'Plus de 5 heures par semaine'].map((time) => (
@@ -371,39 +435,39 @@ export const FormationsPage: React.FC = () => {
             </div>
 
             {/* Q8 */}
-            <div className="space-y-3">
+            <div className="space-y-3 bg-white/50 backdrop-blur-sm rounded-xl p-6">
               <label className="block font-medium text-gray-800">8. Selon vous, quelles sont les qualités importantes pour réussir en onglerie ?</label>
               <p className="text-sm text-gray-500 italic">(ex : patience, précision, sens du contact, créativité...)</p>
               <textarea
                 name="qualities"
                 value={formData.qualities}
                 onChange={handleInputChange}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-saney-gold outline-none"
+                className="w-full p-3 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-lg focus:ring-1 focus:ring-saney-gold outline-none"
                 rows={3}
               />
             </div>
 
             {/* Q9 */}
-            <div className="space-y-3">
+            <div className="space-y-3 bg-white/50 backdrop-blur-sm rounded-xl p-6">
               <label className="block font-medium text-gray-800">9. Avez-vous des craintes ou des difficultés concernant cette formation ?</label>
               <p className="text-sm text-gray-500 italic">(ex : manque de confiance, peur de mal faire, difficulté technique...)</p>
               <textarea
                 name="fears"
                 value={formData.fears}
                 onChange={handleInputChange}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-saney-gold outline-none"
+                className="w-full p-3 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-lg focus:ring-1 focus:ring-saney-gold outline-none"
                 rows={3}
               />
             </div>
 
             {/* Q10 */}
-            <div className="space-y-3">
+            <div className="space-y-3 bg-white/50 backdrop-blur-sm rounded-xl p-6">
               <label className="block font-medium text-gray-800">10. Quels sont vos objectifs professionnels à court terme (3 à 6 mois) ?</label>
               <textarea
                 name="shortTermGoals"
                 value={formData.shortTermGoals}
                 onChange={handleInputChange}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-saney-gold outline-none"
+                className="w-full p-3 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-lg focus:ring-1 focus:ring-saney-gold outline-none"
                 rows={3}
               />
             </div>

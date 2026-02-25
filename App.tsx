@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
@@ -32,6 +32,16 @@ import { DataProvider } from './context/DataContext';
 import { CartSidebar } from './components/CartSidebar';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 const PublicLayout: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-x-hidden">
@@ -51,6 +61,7 @@ const App: React.FC = () => {
       <DataProvider>
         <CartProvider>
           <Router>
+            <ScrollToTop />
             <Routes>
               {/* Public Routes */}
               <Route element={<PublicLayout />}>
