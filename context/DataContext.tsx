@@ -62,6 +62,19 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [users, setUsers] = useState<User[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
 
+  const mapDbMessageToContactMessage = (m: any): ContactMessage => ({
+    id: m.id,
+    userId: m.user_id ?? undefined,
+    name: m.name,
+    email: m.email,
+    subject: m.subject,
+    message: m.message,
+    createdAt: m.created_at,
+    read: m.is_read,
+    adminReply: m.admin_reply ?? undefined,
+    replyAt: m.reply_at ?? undefined
+  });
+
   // Fetch initial data from Supabase
   useEffect(() => {
     const fetchData = async () => {
@@ -105,7 +118,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setQuestionnaires(questionnairesRes.data.map(q => ({ id: q.id, formationId: q.formation_id, userId: q.user_id, userName: q.user_name, userEmail: q.user_email, answers: q.answers, submittedAt: q.submitted_at })));
           }
           if (messagesRes.data) {
-            setContactMessages(messagesRes.data.map(m => ({ ...m, read: m.is_read, createdAt: m.created_at, adminReply: m.admin_reply, replyAt: m.reply_at })));
+            setContactMessages(messagesRes.data.map(mapDbMessageToContactMessage));
           }
         }
       } catch (err) {
@@ -132,12 +145,17 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         console.log("Realtime Message Change:", payload);
         if (payload.eventType === 'INSERT') {
           const newMsg = payload.new as any;
-          setContactMessages(prev => [{ ...newMsg, read: newMsg.is_read, createdAt: newMsg.created_at, adminReply: newMsg.admin_reply, replyAt: newMsg.reply_at }, ...prev]);
+          setContactMessages(prev => {
+            if (prev.some(m => m.id === newMsg.id)) return prev;
+            return [mapDbMessageToContactMessage(newMsg), ...prev];
+          });
         } else if (payload.eventType === 'UPDATE') {
           const updatedMsg = payload.new as any;
-          setContactMessages(prev => prev.map(m => m.id === updatedMsg.id ? { ...updatedMsg, read: updatedMsg.is_read, createdAt: updatedMsg.created_at, adminReply: updatedMsg.admin_reply, replyAt: updatedMsg.reply_at } : m));
+          setContactMessages(prev => prev.map(m => m.id === updatedMsg.id ? mapDbMessageToContactMessage(updatedMsg) : m));
         } else if (payload.eventType === 'DELETE') {
-          setContactMessages(prev => prev.filter(m => m.id !== payload.old.id));
+          const deletedId = (payload.old as any)?.id;
+          if (!deletedId) return;
+          setContactMessages(prev => prev.filter(m => m.id !== deletedId));
         }
       })
       // Repeat for other tables if necessary, but focus on messages for now
@@ -300,25 +318,33 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const addContactMessage = async (item: ContactMessage) => {
-    // If ID is numeric/short (from temp optimistic update), ignore DB insert as it's handled in component
-    // Only insert if it looks like a real new message call
-    if (item.id.length < 10) return; 
+    const { data: { session } } = await supabase.auth.getSession();
+    const userId = session?.user?.id ?? item.userId ?? null;
 
-    const { data, error } = await supabase.from('messages').insert({
-      name: item.name,
-      email: item.email,
-      subject: item.subject,
-      message: item.message,
-      is_read: false
-    }).select().single();
+    const { data, error } = await supabase
+      .from('messages')
+      .insert({
+        user_id: userId,
+        name: item.name,
+        email: item.email,
+        subject: item.subject,
+        message: item.message,
+        is_read: false
+      })
+      .select('*')
+      .single();
 
-    if (data && !error) {
-      setContactMessages(prev => [...prev, { 
-        ...item, 
-        id: data.id, 
-        createdAt: data.created_at, 
-        read: false 
-      }]);
+    if (error) {
+      console.error('Error inserting message:', error);
+      throw error;
+    }
+
+    if (data) {
+      const mapped = mapDbMessageToContactMessage(data);
+      setContactMessages(prev => {
+        if (prev.some(m => m.id === mapped.id)) return prev;
+        return [mapped, ...prev];
+      });
     }
   };
 
@@ -335,7 +361,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.error('Error deleting message:', error);
       throw error;
     }
-    // No need to manually update state here, real-time will handle it
+    // Update local state immediately; realtime may be delayed or filtered by RLS.
+    setContactMessages(prev => prev.filter(m => m.id !== id));
   };
 
   const replyToMessage = async (id: string, replyText: string) => {

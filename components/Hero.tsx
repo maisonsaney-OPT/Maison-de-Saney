@@ -24,6 +24,7 @@ export const Hero: React.FC = () => {
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto text-white space-y-8 animate-fade-in-up pt-24 pb-20">
+        <h1 className="sr-only">Maison Saney, maison de beauté à Béziers</h1>
         <div className="mx-auto w-fit px-4 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center gap-3 shadow-lg">
           <div className="h-12 w-12 rounded-full overflow-hidden border border-white/50 bg-white/20">
             <img src={BRAND_LOGO} alt={`${APP_NAME} logo`} className="h-full w-full object-cover" />
@@ -35,7 +36,7 @@ export const Hero: React.FC = () => {
         </div>
 
         <p className="text-sm md:text-base uppercase tracking-[0.3em] font-light text-saney-beige mb-4">
-          Salon d'onglerie & Nail Art
+          Maison de beauté à Béziers · Salon d'onglerie & Nail Art
         </p>
 
         {/* Spacer to maintain layout balance where "Maison Saney" used to be */}

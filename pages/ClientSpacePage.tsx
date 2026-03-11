@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
-import { ShoppingBag, MessageSquare, LogOut, Send, Package, ArrowLeft, Home } from 'lucide-react';
+import { ShoppingBag, MessageSquare, LogOut, Send, Package, Home, Trash2 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 
 export const ClientSpacePage: React.FC = () => {
   const { user, logout } = useAuth();
-  const { addContactMessage, orders, contactMessages } = useData();
+  const { addContactMessage, deleteContactMessage, orders, contactMessages } = useData();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'orders' | 'messages'>('orders');
   const [newMessage, setNewMessage] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [msgStatus, setMsgStatus] = useState<'success' | 'error' | ''>('');
+  const [isSending, setIsSending] = useState(false);
+  const [isDeletingId, setIsDeletingId] = useState<string | null>(null);
+
+  const getErrorText = (err: unknown) => {
+    const anyErr = err as any;
+    return (
+      anyErr?.message ||
+      anyErr?.error_description ||
+      anyErr?.details ||
+      (typeof anyErr === 'string' ? anyErr : '')
+    );
+  };
 
   const handleLogout = () => {
     logout();
@@ -19,37 +32,47 @@ export const ClientSpacePage: React.FC = () => {
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSending) return;
     if (newMessage.trim() && user) {
       try {
-        const { error } = await supabase.from('messages').insert({
-          user_id: user.id, // Direct link to authenticated user
+        setIsSending(true);
+        await addContactMessage({
+          id: crypto.randomUUID(),
+          userId: user.id,
           name: user.name,
           email: user.email,
           subject: 'Message depuis Espace Client',
           message: newMessage,
-          is_read: false
+          read: false,
+          createdAt: new Date().toISOString()
         });
 
-        if (error) throw error;
-
         setNewMessage('');
+        setMsgStatus('success');
         setSuccessMsg('Votre message a été envoyé avec succès !');
         setTimeout(() => setSuccessMsg(''), 3000);
       } catch (error) {
         console.error('Error sending message:', error);
-        setSuccessMsg("Erreur lors de l'envoi du message.");
+        const detail = getErrorText(error);
+        setMsgStatus('error');
+        setSuccessMsg(`Erreur lors de l'envoi du message.${detail ? ` (${detail})` : ''}`);
+      } finally {
+        setIsSending(false);
       }
     }
   };
 
   const handleDeleteMessage = async (id: string) => {
+    if (isDeletingId) return;
     if (window.confirm('Voulez-vous vraiment supprimer ce message ?')) {
       try {
-        const { error } = await supabase.from('messages').delete().eq('id', id);
-        if (error) throw error;
+        setIsDeletingId(id);
+        await deleteContactMessage(id);
       } catch (error) {
         console.error('Error deleting message:', error);
         alert('Erreur lors de la suppression.');
+      } finally {
+        setIsDeletingId(null);
       }
     }
   };
@@ -62,7 +85,7 @@ export const ClientSpacePage: React.FC = () => {
   const userOrders = orders.filter(o => o.userId === user.id);
   // Filter messages for current user
   const userMessages = contactMessages
-    .filter(m => m.email === user.email)
+    .filter(m => (m.userId ? m.userId === user.id : m.email === user.email))
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   return (
@@ -170,15 +193,21 @@ export const ClientSpacePage: React.FC = () => {
                       className="w-full p-4 border border-gray-200 rounded-lg focus:ring-saney-gold focus:border-saney-gold h-32 mb-4"
                       placeholder="Comment pouvons-nous vous aider ?"
                       required
+                      disabled={isSending}
                     />
                     <div className="flex justify-between items-center">
-                      {successMsg && <p className="text-green-600 text-sm font-medium">{successMsg}</p>}
+                      {successMsg && (
+                        <p className={`text-sm font-medium ${msgStatus === 'error' ? 'text-red-600' : 'text-green-600'}`}>
+                          {successMsg}
+                        </p>
+                      )}
                       <button
                         type="submit"
-                        className="bg-saney-dark text-white px-6 py-3 rounded-lg font-bold hover:bg-black transition-colors flex items-center gap-2 ml-auto"
+                        disabled={isSending || !newMessage.trim()}
+                        className="bg-saney-dark text-white px-6 py-3 rounded-lg font-bold hover:bg-black transition-colors flex items-center gap-2 ml-auto disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <Send size={18} />
-                        Envoyer
+                        {isSending ? 'Envoi...' : 'Envoyer'}
                       </button>
                     </div>
                   </form>
@@ -199,7 +228,8 @@ export const ClientSpacePage: React.FC = () => {
                               </span>
                               <button 
                                 onClick={() => handleDeleteMessage(msg.id)}
-                                className="text-gray-400 hover:text-red-500 transition-colors"
+                                disabled={isDeletingId === msg.id}
+                                className="text-gray-400 hover:text-red-500 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                                 title="Supprimer mon message"
                               >
                                 <Trash2 size={14} />

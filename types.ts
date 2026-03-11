@@ -68,6 +68,7 @@ export interface QuestionnaireAnswer {
 
 export interface ContactMessage {
   id: string;
+  userId?: string;
   name: string;
   email: string;
   subject: string;

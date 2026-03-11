@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin
+Disallow: /client
+
+Sitemap: https://maisondesaney.net/sitemap.xml
+

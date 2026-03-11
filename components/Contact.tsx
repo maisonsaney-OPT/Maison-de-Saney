@@ -12,21 +12,34 @@ export const Contact: React.FC = () => {
     message: ''
   });
   const [success, setSuccess] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSending) return;
+
+    setIsSending(true);
     addContactMessage({
-      id: Math.random().toString(36).substr(2, 9),
+      id: crypto.randomUUID(),
       name: formData.name,
       email: formData.email,
       subject: formData.subject,
       message: formData.message,
       read: false,
       createdAt: new Date().toISOString()
-    });
-    setSuccess(true);
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setTimeout(() => setSuccess(false), 5000);
+    })
+      .then(() => {
+        setSuccess(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setSuccess(false), 5000);
+      })
+      .catch((err) => {
+        console.error('Error sending message:', err);
+        alert("Erreur lors de l'envoi du message.");
+      })
+      .finally(() => {
+        setIsSending(false);
+      });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -154,10 +167,11 @@ export const Contact: React.FC = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-saney-dark text-white py-3 rounded-lg font-bold hover:bg-black transition-colors flex items-center justify-center gap-2"
+                  disabled={isSending}
+                  className="w-full bg-saney-dark text-white py-3 rounded-lg font-bold hover:bg-black transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <Send size={18} />
-                  Envoyer
+                  {isSending ? 'Envoi...' : 'Envoyer'}
                 </button>
               </form>
             )}
