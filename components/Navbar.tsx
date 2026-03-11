@@ -59,28 +59,30 @@ export const Navbar: React.FC = () => {
 
             {/* Right Side: Menu, User & Cart Buttons */}
             <div className="flex-shrink-0 flex justify-end items-center gap-1 md:gap-4">
-              {/* Menu Trigger */}
-              <button
-                onClick={() => setIsOpen(true)}
-                className={`p-1 md:p-2 rounded-md ${scrolled ? 'text-saney-dark' : 'text-saney-dark'} hover:text-saney-gold focus:outline-none flex items-center gap-2`}
-              >
-                <Menu size={28} />
-                <span className="hidden md:block uppercase font-bold tracking-widest text-sm">Menu</span>
-              </button>
-
+              
               {/* User Connection Option */}
-              <Link
-                to={isAuthenticated ? (isAdmin ? '/admin' : '/client') : '/login'}
-                className={`p-1 md:p-2 rounded-full transition-colors ${scrolled ? 'text-saney-dark hover:text-saney-gold' : 'text-saney-dark hover:text-saney-gold bg-saney-dark/5 hover:bg-saney-dark/10'}`}
-                title={isAuthenticated ? "Mon Espace" : "Connexion"}
-              >
-                <User size={24} />
-              </Link>
+              {isAuthenticated ? (
+                <Link
+                  to={isAdmin ? '/admin' : '/client'}
+                  className={`p-2 rounded-full transition-colors ${scrolled ? 'text-saney-dark hover:text-saney-gold' : 'text-saney-dark hover:text-saney-gold bg-saney-dark/5 hover:bg-saney-dark/10'}`}
+                  title={isAdmin ? "Administration" : "Mon Espace Client"}
+                >
+                  <User size={24} />
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className={`p-2 rounded-full transition-colors ${scrolled ? 'text-saney-dark hover:text-saney-gold' : 'text-saney-dark hover:text-saney-gold bg-saney-dark/5 hover:bg-saney-dark/10'}`}
+                  title="Connexion"
+                >
+                  <LogIn size={24} />
+                </Link>
+              )}
 
               {/* Cart Button */}
               <button
                 onClick={() => setIsCartOpen(true)}
-                className={`relative p-1 md:p-2 rounded-full transition-colors ${scrolled ? 'text-saney-dark hover:text-saney-gold' : 'text-saney-dark hover:text-saney-gold bg-saney-dark/5 hover:bg-saney-dark/10'}`}
+                className={`relative p-2 rounded-full transition-colors ${scrolled ? 'text-saney-dark hover:text-saney-gold' : 'text-saney-dark hover:text-saney-gold bg-saney-dark/5 hover:bg-saney-dark/10'}`}
               >
                 <ShoppingBag size={24} />
                 {itemCount > 0 && (
@@ -88,6 +90,15 @@ export const Navbar: React.FC = () => {
                     {itemCount}
                   </span>
                 )}
+              </button>
+
+              {/* Menu Trigger */}
+              <button
+                onClick={() => setIsOpen(true)}
+                className={`p-2 rounded-md ${scrolled ? 'text-saney-dark' : 'text-saney-dark'} hover:text-saney-gold focus:outline-none flex items-center gap-2`}
+              >
+                <span className="hidden md:block uppercase font-bold tracking-widest text-sm mr-1">Menu</span>
+                <Menu size={28} />
               </button>
             </div>
 

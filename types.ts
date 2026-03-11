@@ -74,6 +74,8 @@ export interface ContactMessage {
   message: string;
   createdAt: string;
   read: boolean;
+  adminReply?: string;
+  replyAt?: string;
 }
 
 export interface GalleryImage {

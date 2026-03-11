@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
-import { ShoppingBag, MessageSquare, LogOut, Send, Package } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { ShoppingBag, MessageSquare, LogOut, Send, Package, ArrowLeft, Home } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
 
 export const ClientSpacePage: React.FC = () => {
   const { user, logout } = useAuth();
@@ -17,21 +17,40 @@ export const ClientSpacePage: React.FC = () => {
     navigate('/login');
   };
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newMessage.trim() && user) {
-      addContactMessage({
-        id: Math.random().toString(36).substr(2, 9),
-        name: user.name,
-        email: user.email,
-        subject: 'Message depuis Espace Client',
-        message: newMessage,
-        read: false,
-        createdAt: new Date().toISOString()
-      });
-      setNewMessage('');
-      setSuccessMsg('Votre message a été envoyé avec succès !');
-      setTimeout(() => setSuccessMsg(''), 3000);
+      try {
+        const { error } = await supabase.from('messages').insert({
+          user_id: user.id, // Direct link to authenticated user
+          name: user.name,
+          email: user.email,
+          subject: 'Message depuis Espace Client',
+          message: newMessage,
+          is_read: false
+        });
+
+        if (error) throw error;
+
+        setNewMessage('');
+        setSuccessMsg('Votre message a été envoyé avec succès !');
+        setTimeout(() => setSuccessMsg(''), 3000);
+      } catch (error) {
+        console.error('Error sending message:', error);
+        setSuccessMsg("Erreur lors de l'envoi du message.");
+      }
+    }
+  };
+
+  const handleDeleteMessage = async (id: string) => {
+    if (window.confirm('Voulez-vous vraiment supprimer ce message ?')) {
+      try {
+        const { error } = await supabase.from('messages').delete().eq('id', id);
+        if (error) throw error;
+      } catch (error) {
+        console.error('Error deleting message:', error);
+        alert('Erreur lors de la suppression.');
+      }
     }
   };
 
@@ -60,13 +79,24 @@ export const ClientSpacePage: React.FC = () => {
                 <p className="text-white/70">{user.email}</p>
               </div>
             </div>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-colors"
-            >
-              <LogOut size={18} />
-              Déconnexion
-            </button>
+            
+            <div className="flex items-center gap-3">
+              <Link 
+                to="/" 
+                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-colors text-sm font-bold uppercase tracking-wider"
+              >
+                <Home size={18} />
+                Retour au site
+              </Link>
+              
+              <button
+                onClick={handleLogout}
+                className="bg-white/10 hover:bg-red-500/80 p-2 rounded-lg transition-colors text-white/70 hover:text-white"
+                title="Déconnexion"
+              >
+                <LogOut size={20} />
+              </button>
+            </div>
           </div>
 
           <div className="flex border-b border-gray-100">
@@ -158,17 +188,44 @@ export const ClientSpacePage: React.FC = () => {
                   <h3 className="font-bold text-gray-700">Historique des messages</h3>
                   {userMessages.length > 0 ? (
                     userMessages.map((msg) => (
-                      <div key={msg.id} className="border border-gray-100 rounded-lg p-4 bg-white">
-                        <div className="flex justify-between items-start mb-2">
-                          <p className="text-gray-500 text-xs">
-                            {new Date(msg.createdAt).toLocaleDateString()} à {new Date(msg.createdAt).toLocaleTimeString()}
-                          </p>
-                          <span className={`text-xs px-2 py-0.5 rounded-full ${msg.read ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
-                            {msg.read ? 'Lu' : 'Envoyé'}
-                          </span>
-                        </div>
+                      <div key={msg.id} className="border border-gray-100 rounded-lg p-4 bg-white shadow-sm">
+                          <div className="flex justify-between items-start mb-2">
+                            <p className="text-gray-500 text-xs">
+                              {new Date(msg.createdAt).toLocaleDateString()} à {new Date(msg.createdAt).toLocaleTimeString()}
+                            </p>
+                            <div className="flex items-center gap-2">
+                              <span className={`text-xs px-2 py-0.5 rounded-full ${msg.read ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                                {msg.read ? 'Lu' : 'Envoyé'}
+                              </span>
+                              <button 
+                                onClick={() => handleDeleteMessage(msg.id)}
+                                className="text-gray-400 hover:text-red-500 transition-colors"
+                                title="Supprimer mon message"
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          </div>
                         <p className="text-gray-500 text-sm font-medium mb-1">Vous avez écrit :</p>
-                        <p className="text-gray-800 bg-gray-50 p-3 rounded-lg text-sm">{msg.message}</p>
+                        <p className="text-gray-800 bg-gray-50 p-3 rounded-lg text-sm mb-4">{msg.message}</p>
+                        
+                        {/* Admin Reply */}
+                        {msg.adminReply && (
+                          <div className="ml-4 pl-4 border-l-2 border-saney-gold/50">
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-5 h-5 rounded-full bg-saney-dark text-white flex items-center justify-center text-[10px] font-bold">
+                                S
+                              </div>
+                              <p className="text-saney-dark text-xs font-bold">Réponse de Maison Saney</p>
+                              <span className="text-[10px] text-gray-400">
+                                {new Date(msg.replyAt!).toLocaleDateString()}
+                              </span>
+                            </div>
+                            <p className="text-gray-700 text-sm bg-saney-cream/50 p-3 rounded-lg border border-saney-gold/10">
+                              {msg.adminReply}
+                            </p>
+                          </div>
+                        )}
                       </div>
                     ))
                   ) : (
