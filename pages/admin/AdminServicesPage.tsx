@@ -26,7 +26,8 @@ export const AdminServicesPage: React.FC = () => {
     setCurrentService({
       id: Math.random().toString(36).substr(2, 9),
       benefits: [],
-      iconName: 'Sparkles'
+      iconName: 'Sparkles',
+      sortOrder: services.length + 1
     });
     setIsEditing(true);
   };
@@ -118,6 +119,16 @@ export const AdminServicesPage: React.FC = () => {
             </div>
 
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
+              <input
+                type="text"
+                value={currentService.category || ''}
+                onChange={e => setCurrentService({ ...currentService, category: e.target.value })}
+                className="w-full p-2 border rounded-lg focus:ring-saney-gold focus:border-saney-gold"
+              />
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
               <textarea
                 value={currentService.description || ''}
@@ -142,6 +153,15 @@ export const AdminServicesPage: React.FC = () => {
                   type="text"
                   value={currentService.duration || ''}
                   onChange={e => setCurrentService({ ...currentService, duration: e.target.value })}
+                  className="w-full p-2 border rounded-lg focus:ring-saney-gold focus:border-saney-gold"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Ordre</label>
+                <input
+                  type="number"
+                  value={currentService.sortOrder || ''}
+                  onChange={e => setCurrentService({ ...currentService, sortOrder: Number(e.target.value) })}
                   className="w-full p-2 border rounded-lg focus:ring-saney-gold focus:border-saney-gold"
                 />
               </div>
@@ -227,7 +247,10 @@ export const AdminServicesPage: React.FC = () => {
               </div>
               <div className="flex-1">
                 <div className="flex justify-between items-start">
-                  <h3 className="font-bold text-lg text-gray-900">{service.title}</h3>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-widest text-saney-gold mb-1">{service.category}</p>
+                    <h3 className="font-bold text-lg text-gray-900">{service.title}</h3>
+                  </div>
                   <div className="flex gap-2">
                     <button onClick={() => handleEdit(service)} className="text-blue-500 hover:text-blue-700">
                       <Edit size={18} />

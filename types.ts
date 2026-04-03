@@ -2,6 +2,7 @@ import { LucideIcon } from 'lucide-react';
 
 export interface ServiceItem {
   id: string;
+  category?: string;
   title: string;
   description: string;
   benefits: string[];
@@ -9,6 +10,7 @@ export interface ServiceItem {
   price?: string;
   iconName?: string;
   image?: string;
+  sortOrder?: number;
 }
 
 export interface Testimonial {
@@ -54,6 +56,7 @@ export interface Formation {
   duration: string;
   image: string;
   program: string[];
+  sortOrder?: number;
 }
 
 export interface QuestionnaireAnswer {

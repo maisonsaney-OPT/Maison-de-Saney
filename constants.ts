@@ -36,6 +36,7 @@ import img10 from './src/10.png';
 import img11 from './src/11.png';
 import img16 from './src/16.png';
 import nails from './src/nails.png';
+import { PLANITY_FORMATIONS, PLANITY_SERVICES } from './data/planityCatalog.js';
 
 export const APP_NAME = "Maison Saney";
 export const BRAND_LOGO = brandLogo;
@@ -67,57 +68,100 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Contact', href: '/contact' },
 ];
 
-export const SERVICES: ServiceItem[] = [
-  {
-    id: 'semi',
-    title: 'Manucure & Semi-permanent',
-    description: 'Preparation en douceur, cuticules soignees et pose de vernis longue tenue pour des mains impeccables.',
-    benefits: ['Preparation russe maitrisee', 'Brillance 3 semaines', 'Palette de teintes signature'],
-    duration: '45-60 min',
-    price: 'Des 40 EUR',
-    iconName: 'Sparkles',
-    image: salon1
-  },
-  {
-    id: 'gel',
-    title: 'Extensions Gel / Acrygel',
-    description: 'Architecture personnalisee, renforcement et mise en forme elegante pour des ongles elances et resistants.',
-    benefits: ['Courbe C soignee', 'Formes modernes', 'Finition ultra brillante'],
-    duration: '75-120 min',
-    price: 'Sur devis',
-    iconName: 'Syringe',
-    image: salon2
-  },
-  {
-    id: 'nailart',
-    title: 'Nail Art Signature',
-    description: 'Creations artistiques minimalistes ou audacieuses : baby boomer, lignes graphiques, effets chrome ou cat-eye.',
-    benefits: ['Designs sur-mesure', 'Pigments premium', 'Details haute precision'],
-    duration: '30-60 min',
-    price: 'A partir de 15 EUR',
-    iconName: 'Sparkles',
-    image: salon3
-  },
-  {
-    id: 'spa',
-    title: 'Spa Mains & Pieds',
-    description: 'Rituel relaxant : bain tiede, gommage, masque hydratant et modelage, suivi dune pose soignee.',
-    benefits: ['Peau douce et nourrie', 'Cuticules assouplies', 'Moment de detente'],
-    duration: '60 min',
-    price: 'Des 55 EUR',
-    iconName: 'Wind',
-    image: salon4
-  },
-  {
-    id: 'soin',
-    title: 'Reparation & Renfort',
-    description: 'Soin fortifiant, gainage en rubber base ou reparation dongles fragilises pour retrouver une base saine.',
-    benefits: ['Renforcement durable', 'Protection des ongles naturels', 'Finition naturelle'],
-    duration: '45 min',
-    price: 'Des 35 EUR',
-    iconName: 'Scissors',
-    image: salon5
-  }
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+const CATEGORY_ICON_MAP: Record<string, string> = {
+  'Offres du moment': 'Sparkles',
+  'Beauté du regard': 'Sparkles',
+  'Extension & pose de cils': 'Sparkles',
+  'Maquillage permanent & retouches': 'Syringe',
+  'Beauté des mains & ongles': 'Sparkles',
+  'Manucure japonaise': 'Sparkles',
+  'Beauté des pieds': 'Wind',
+  'Soins cheveux & lissages': 'Scissors',
+  'Soins visage': 'Sparkles',
+  'Soins corps': 'Wind',
+  'Microneedling': 'Syringe',
+  'Hollywood Peel / Carbon Peel': 'Syringe',
+  'Peeling aux algues': 'Syringe',
+  'Hammam': 'Wind',
+  'Hammam & Jacuzzi': 'Wind',
+  'Head Spa': 'Wind',
+  'Modelage & détente': 'Wind',
+  'Épilations cire femme': 'Scissors',
+  'Épilations définitive': 'Syringe',
+  'Blanchiment dentaire': 'Sparkles',
+  'Détatouage': 'Syringe',
+  'Kids Spa Premium': 'Sparkles',
+  'Forfait mariée / fiancée': 'Sparkles',
+  'Carte cadeaux': 'Sparkles',
+};
+
+export const SERVICE_CATEGORY_VISUALS: Record<string, string> = {
+  'Offres du moment': salon1,
+  'Beauté du regard': img10,
+  'Extension & pose de cils': img11,
+  'Maquillage permanent & retouches': img16,
+  'Beauté des mains & ongles': nails,
+  'Manucure japonaise': salon2,
+  'Beauté des pieds': salon4,
+  'Soins cheveux & lissages': salon5,
+  'Soins visage': about1,
+  'Soins corps': about2,
+  'Microneedling': about3,
+  'Hollywood Peel / Carbon Peel': img6,
+  'Peeling aux algues': img3,
+  'Hammam': vitrine,
+  'Hammam & Jacuzzi': collageOne,
+  'Head Spa': salon3,
+  'Modelage & détente': salon5,
+  'Épilations cire femme': img2,
+  'Épilations définitive': img10,
+  'Blanchiment dentaire': img11,
+  'Détatouage': img16,
+  'Kids Spa Premium': collageTwo,
+  'Forfait mariée / fiancée': heroImageMobile,
+  'Carte cadeaux': brandLogo,
+};
+
+export const SERVICES: ServiceItem[] = PLANITY_SERVICES.map((service, index) => ({
+  id: `${slugify(service.category)}-${slugify(service.title)}`,
+  category: service.category,
+  title: service.title,
+  description: service.description,
+  benefits: [service.category, service.duration, service.price],
+  duration: service.duration,
+  price: service.price,
+  iconName: CATEGORY_ICON_MAP[service.category] || 'Sparkles',
+  image: SERVICE_CATEGORY_VISUALS[service.category] || salon1,
+  sortOrder: index + 1,
+}));
+
+export const DEFAULT_FORMATIONS = PLANITY_FORMATIONS.map((formation, index) => ({
+  id: `formation-${slugify(formation.title)}`,
+  title: formation.title,
+  description: formation.description,
+  price: formation.price,
+  duration: formation.duration,
+  image: img11,
+  program: formation.program,
+  sortOrder: index + 1,
+}));
+
+export const HOME_EXPLORER_CARDS = [
+  { label: 'Le Salon', href: '/about', image: about1, description: 'Découvrez les lieux, l ambiance et l univers Maison de Saney.' },
+  { label: 'Prestations', href: '/services', image: salon1, description: 'Parcourez nos prestations classees par categorie.' },
+  { label: 'Formations', href: '/formations', image: img11, description: 'Consultez les formations proposees et candidatez en ligne.' },
+  { label: 'Boutique', href: '/products', image: salon3, description: 'Retrouvez notre selection de produits et d essentiels beaute.' },
+  { label: 'Galerie', href: '/gallery', image: collageOne, description: 'Inspirez-vous de nos realisations et de l atmosphere du salon.' },
+  { label: 'Contact', href: '/contact', image: vitrine, description: 'Accedez aux informations utiles pour nous joindre facilement.' },
+  { label: 'Prendre RDV', href: PLANITY_URL, image: collageTwo, description: 'Reservez votre prochain rendez-vous directement sur Planity.', external: true },
 ];
 
 export const TESTIMONIALS: Testimonial[] = [
@@ -126,38 +170,4 @@ export const TESTIMONIALS: Testimonial[] = [
   { id: 3, name: "Amandine L.", text: "Moment detente absolu avec le spa mains et pieds. Mes ongles nont jamais ete aussi beaux.", rating: 5 },
 ];
 
-export const PRODUCTS: Product[] = [
-  {
-    id: 'prod_1',
-    name: 'Huile Cuticules Gold',
-    description: 'Une huile riche et nourrissante pour des cuticules saines et hydratées. Parfum délicat de vanille.',
-    price: 15.90,
-    image: salon4, // Using salon image as placeholder
-    category: 'Soin'
-  },
-  {
-    id: 'prod_2',
-    name: 'Crème Mains Velours',
-    description: 'Crème hydratante intense, non grasse, qui laisse les mains douces comme du velours.',
-    price: 24.50,
-    image: salon5, // Using salon image as placeholder
-    category: 'Soin'
-  },
-  {
-    id: 'prod_3',
-    name: 'Kit Press-on Nails Nude',
-    description: 'Un kit complet de faux ongles réutilisables, forme amande, teinte nude parfaite.',
-    price: 35.00,
-    image: salon1, // Using salon image as placeholder
-    category: 'Ongles'
-  },
-  {
-    id: 'prod_4',
-    name: 'Lime à Ongles Pro',
-    description: 'Lime professionnelle double face grains 100/180 pour un limage précis.',
-    price: 4.90,
-    image: salon3, // Using salon image as placeholder
-    category: 'Accessoires'
-  }
-];
-
+export const PRODUCTS: Product[] = [];

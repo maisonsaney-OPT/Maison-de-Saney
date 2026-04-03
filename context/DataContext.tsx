@@ -1,6 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { ServiceItem, Product, GalleryImage, Formation, QuestionnaireAnswer, ContactMessage, User, Order } from '../types';
-import { SERVICES, PRODUCTS, GALLERY_IMAGES } from '../constants';
+import {
+  SERVICES,
+  PRODUCTS,
+  GALLERY_IMAGES,
+  DEFAULT_FORMATIONS,
+  SERVICE_CATEGORY_VISUALS
+} from '../constants';
 import { supabase } from '../lib/supabase';
 
 interface DataContextType {
@@ -56,7 +62,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       title: `Gallery Image ${index + 1}`
     }));
   });
-  const [formations, setFormations] = useState<Formation[]>([]);
+  const [formations, setFormations] = useState<Formation[]>(DEFAULT_FORMATIONS);
   const [questionnaires, setQuestionnaires] = useState<QuestionnaireAnswer[]>([]);
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [users, setUsers] = useState<User[]>([]);
@@ -82,14 +88,22 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         // Public Data
         const [servicesRes, productsRes, galleryRes, formationsRes] = await Promise.all([
-          supabase.from('services').select('*'),
+          supabase.from('services').select('*').order('sort_order', { ascending: true }),
           supabase.from('products').select('*'),
           supabase.from('gallery').select('*'),
-          supabase.from('formations').select('*')
+          supabase.from('formations').select('*').order('sort_order', { ascending: true })
         ]);
 
         if (servicesRes.data) {
-          setServices(servicesRes.data.map(s => ({ ...s, iconName: s.icon_name, image: s.image_url })));
+          setServices(servicesRes.data.map(s => ({
+            ...s,
+            category: s.category,
+            iconName: s.icon_name,
+            image: typeof s.image_url === 'string' && s.image_url.startsWith('category:')
+              ? SERVICE_CATEGORY_VISUALS[s.category] || undefined
+              : s.image_url,
+            sortOrder: s.sort_order
+          })));
         }
         if (productsRes.data) {
           setProducts(productsRes.data.map(p => ({ ...p, image: p.image_url })));
@@ -98,7 +112,13 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           setGalleryImages(galleryRes.data.map(g => ({ id: g.id, url: g.image_url, category: g.category, title: g.title })));
         }
         if (formationsRes.data) {
-          setFormations(formationsRes.data.map(f => ({ ...f, image: f.image_url })));
+          setFormations(formationsRes.data.map(f => ({
+            ...f,
+            image: typeof f.image_url === 'string' && f.image_url.startsWith('category:')
+              ? DEFAULT_FORMATIONS.find(item => item.title === f.title)?.image || DEFAULT_FORMATIONS[0]?.image || ''
+              : f.image_url,
+            sortOrder: f.sort_order
+          })));
         }
 
         // Auth-dependent Data
@@ -181,7 +201,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       duration: item.duration,
       price: item.price,
       icon_name: item.iconName,
-      image_url: item.image
+      image_url: item.image,
+      category: item.category,
+      sort_order: item.sortOrder
     }).select().single();
 
     if (data && !error) {
@@ -197,7 +219,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       duration: item.duration,
       price: item.price,
       icon_name: item.iconName,
-      image_url: item.image
+      image_url: item.image,
+      category: item.category,
+      sort_order: item.sortOrder
     }).eq('id', item.id);
 
     if (!error) {
@@ -273,7 +297,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       price: item.price,
       duration: item.duration,
       image_url: item.image,
-      program: item.program
+      program: item.program,
+      sort_order: item.sortOrder
     }).select().single();
 
     if (data && !error) {
@@ -288,7 +313,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       price: item.price,
       duration: item.duration,
       image_url: item.image,
-      program: item.program
+      program: item.program,
+      sort_order: item.sortOrder
     }).eq('id', item.id);
 
     if (!error) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, ShoppingBag, Search, User, LogIn, LogOut } from 'lucide-react';
+import { Menu, X, ShoppingBag, Search, User, LogIn, LogOut, CalendarDays } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { NAV_LINKS, PHONE, APP_NAME, BRAND_LOGO } from '../constants';
+import { NAV_LINKS, APP_NAME, BRAND_LOGO, PLANITY_URL } from '../constants';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import menuBg from '../src/4.png';
@@ -57,8 +57,22 @@ export const Navbar: React.FC = () => {
             {/* Center: Spacer to push right content */}
             <div className="flex-1"></div>
 
-            {/* Right Side: Menu, User & Cart Buttons */}
+            {/* Right Side: Actions */}
             <div className="flex-shrink-0 flex justify-end items-center gap-1 md:gap-4">
+              <a
+                href={PLANITY_URL}
+                target="_blank"
+                rel="noreferrer"
+                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full font-semibold transition-all ${
+                  scrolled
+                    ? 'bg-saney-dark text-white hover:bg-saney-gold'
+                    : 'bg-white/85 text-saney-dark hover:bg-saney-gold hover:text-white'
+                }`}
+                title="Réserver sur Planity"
+              >
+                <CalendarDays size={18} />
+                <span className="hidden sm:inline text-sm">Prendre RDV</span>
+              </a>
               
               {/* User Connection Option */}
               {isAuthenticated ? (
@@ -78,19 +92,6 @@ export const Navbar: React.FC = () => {
                   <LogIn size={24} />
                 </Link>
               )}
-
-              {/* Cart Button */}
-              <button
-                onClick={() => setIsCartOpen(true)}
-                className={`relative p-2 rounded-full transition-colors ${scrolled ? 'text-saney-dark hover:text-saney-gold' : 'text-saney-dark hover:text-saney-gold bg-saney-dark/5 hover:bg-saney-dark/10'}`}
-              >
-                <ShoppingBag size={24} />
-                {itemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold h-4 w-4 flex items-center justify-center rounded-full">
-                    {itemCount}
-                  </span>
-                )}
-              </button>
 
               {/* Menu Trigger */}
               <button
@@ -168,6 +169,21 @@ export const Navbar: React.FC = () => {
                 </Link>
                 <button
                   onClick={() => {
+                    setIsCartOpen(true);
+                    setIsOpen(false);
+                  }}
+                  className="flex items-center justify-center gap-2 w-full py-4 px-6 rounded-xl text-center uppercase tracking-widest font-bold text-sm shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300 bg-saney-dark text-white hover:bg-black relative"
+                >
+                  <ShoppingBag size={18} />
+                  Mon Panier
+                  {itemCount > 0 && (
+                    <span className="absolute right-4 bg-red-500 text-white text-[10px] font-bold h-5 min-w-5 px-1 flex items-center justify-center rounded-full">
+                      {itemCount}
+                    </span>
+                  )}
+                </button>
+                <button
+                  onClick={() => {
                     logout();
                     setIsOpen(false);
                     navigate('/');
@@ -179,7 +195,7 @@ export const Navbar: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div className="mb-6 pb-6 border-b border-gray-100">
+              <div className="mb-6 space-y-3 pb-6 border-b border-gray-100">
                 <Link
                   to="/login"
                   onClick={() => setIsOpen(false)}
@@ -188,6 +204,21 @@ export const Navbar: React.FC = () => {
                   <LogIn size={18} />
                   Connexion
                 </Link>
+                <button
+                  onClick={() => {
+                    setIsCartOpen(true);
+                    setIsOpen(false);
+                  }}
+                  className="flex items-center justify-center gap-2 w-full py-4 px-6 rounded-xl text-center uppercase tracking-widest font-bold text-sm border-2 border-gray-200 text-saney-dark hover:border-saney-gold hover:text-saney-gold transition-all duration-300 relative"
+                >
+                  <ShoppingBag size={18} />
+                  Mon Panier
+                  {itemCount > 0 && (
+                    <span className="absolute right-4 bg-red-500 text-white text-[10px] font-bold h-5 min-w-5 px-1 flex items-center justify-center rounded-full">
+                      {itemCount}
+                    </span>
+                  )}
+                </button>
               </div>
             )}
 
@@ -220,12 +251,14 @@ export const Navbar: React.FC = () => {
 
             {/* RDV Button in Menu */}
             <a 
-              href={`tel:${PHONE.replace(/\s/g, '')}`}
+              href={PLANITY_URL}
+              target="_blank"
+              rel="noreferrer"
               className="block w-full py-4 px-6 rounded-xl text-center uppercase tracking-widest font-bold text-sm bg-white border-2 border-saney-gold text-saney-gold hover:bg-saney-gold hover:text-white transition-all duration-300 mt-8"
             >
               <span className="flex items-center justify-center gap-2">
-                <Phone size={18} />
-                Prendre Rendez-vous
+                <CalendarDays size={18} />
+                Réserver sur Planity
               </span>
             </a>
           </div>

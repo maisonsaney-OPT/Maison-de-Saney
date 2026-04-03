@@ -16,6 +16,7 @@ create table if not exists public.profiles (
 -- 2. Services Table
 create table if not exists public.services (
   id uuid default uuid_generate_v4() primary key,
+  category text,
   title text not null,
   description text,
   benefits text[], -- Array of strings
@@ -23,6 +24,7 @@ create table if not exists public.services (
   price text,
   icon_name text,
   image_url text,
+  sort_order integer,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
@@ -56,6 +58,7 @@ create table if not exists public.formations (
   duration text,
   image_url text,
   program text[],
+  sort_order integer,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

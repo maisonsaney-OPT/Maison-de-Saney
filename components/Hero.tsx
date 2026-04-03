@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { APP_NAME, BRAND_LOGO, HERO_IMAGE, HERO_IMAGE_MOBILE, LOCAL_COLLAGES } from '../constants';
+import { APP_NAME, BRAND_LOGO, HERO_IMAGE, HERO_IMAGE_MOBILE, PLANITY_URL } from '../constants';
 
 export const Hero: React.FC = () => {
   return (
@@ -47,13 +47,15 @@ export const Hero: React.FC = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-          <Link 
-            to="/contact" 
+          <a
+            href={PLANITY_URL}
+            target="_blank"
+            rel="noreferrer"
             className="bg-saney-gold text-white px-8 py-4 rounded-none border border-saney-gold hover:bg-white hover:text-saney-gold transition-all duration-300 uppercase tracking-widest text-sm font-bold flex items-center justify-center gap-2 group"
           >
-            Reserver un creneau
+            Prendre rendez-vous
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
+          </a>
           <Link 
             to="/services" 
             className="bg-transparent text-white px-8 py-4 rounded-none border border-white hover:bg-white hover:text-saney-dark transition-all duration-300 uppercase tracking-widest text-sm font-bold"

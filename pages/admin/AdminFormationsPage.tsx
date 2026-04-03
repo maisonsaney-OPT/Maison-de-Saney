@@ -19,7 +19,8 @@ export const AdminFormationsPage: React.FC = () => {
   const handleAdd = () => {
     setCurrentFormation({
       id: Math.random().toString(36).substr(2, 9),
-      program: []
+      program: [],
+      sortOrder: formations.length + 1
     });
     setIsEditing(true);
   };
@@ -110,6 +111,15 @@ export const AdminFormationsPage: React.FC = () => {
                   type="text"
                   value={currentFormation.duration || ''}
                   onChange={e => setCurrentFormation({ ...currentFormation, duration: e.target.value })}
+                  className="w-full p-2 border rounded-lg focus:ring-saney-gold focus:border-saney-gold"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Ordre</label>
+                <input
+                  type="number"
+                  value={currentFormation.sortOrder || ''}
+                  onChange={e => setCurrentFormation({ ...currentFormation, sortOrder: Number(e.target.value) })}
                   className="w-full p-2 border rounded-lg focus:ring-saney-gold focus:border-saney-gold"
                 />
               </div>

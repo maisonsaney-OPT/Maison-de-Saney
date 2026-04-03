@@ -12,6 +12,7 @@ import bg15 from '../src/15.png';
 
 export const FormationsPage: React.FC = () => {
   const { formations, addQuestionnaireAnswer } = useData();
+  const orderedFormations = [...formations].sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
   const [selectedFormationId, setSelectedFormationId] = useState<string>('');
   const heroImages = [img2, img3, img6, img11, img10, img16, nails];
   // Infinite scroll animation logic is handled via CSS
@@ -169,7 +170,7 @@ export const FormationsPage: React.FC = () => {
           <div className="mb-16">
             <h2 className="font-serif text-2xl text-center mb-8 uppercase tracking-widest text-saney-dark">Nos Modules de Formation</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {formations.map(formation => (
+              {orderedFormations.map(formation => (
                 <div key={formation.id} className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
                   <div className="flex gap-4">
                     <div className="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
@@ -205,8 +206,8 @@ export const FormationsPage: React.FC = () => {
         >
           <h2 className="font-serif text-2xl text-center mb-2 uppercase tracking-widest text-saney-dark">Questionnaire de pré-inscription</h2>
           <p className="text-center text-gray-500 mb-10 uppercase text-sm tracking-wider">
-            {selectedFormationId 
-              ? `Candidature pour : ${formations.find(f => f.id === selectedFormationId)?.title}` 
+              {selectedFormationId 
+              ? `Candidature pour : ${orderedFormations.find(f => f.id === selectedFormationId)?.title}` 
               : "Candidature Spontanée"}
           </p>
 
