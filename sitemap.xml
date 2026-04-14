@@ -36,6 +36,41 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://maisondesaney.net/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://maisondesaney.net/blog/difference-biab-gel-gainage-beziers</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://maisondesaney.net/blog/manucure-russe-danger-ou-non-beziers</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://maisondesaney.net/blog/combien-de-temps-tient-un-gainage-ou-biab</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://maisondesaney.net/blog/ongles-mariage-pezenas-inspiration</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://maisondesaney.net/blog/ongles-vacances-valras-plage</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://maisondesaney.net/blog/formation-prothesiste-ongulaire-beziers-comment-choisir</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://maisondesaney.net/mentions-legales</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
@@ -51,4 +86,3 @@
     <priority>0.3</priority>
   </url>
 </urlset>
-
