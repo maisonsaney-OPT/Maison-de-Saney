@@ -25,6 +25,42 @@ export interface NavLink {
   href: string;
 }
 
+export interface BlogInlineLink {
+  label: string;
+  href: string;
+  description: string;
+}
+
+export interface BlogSection {
+  heading: string;
+  paragraphs: string[];
+  bullets?: string[];
+}
+
+export interface BlogFaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  seoTitle: string;
+  metaDescription: string;
+  excerpt: string;
+  category: string;
+  readTime: string;
+  publishedAt: string;
+  heroImage: string;
+  heroAlt: string;
+  localAngle: string;
+  intro: string;
+  sections: BlogSection[];
+  faq?: BlogFaqItem[];
+  internalLinks: BlogInlineLink[];
+  relatedSlugs: string[];
+}
+
 export interface Product {
   id: string;
   name: string;

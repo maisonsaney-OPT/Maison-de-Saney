@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { NAV_LINKS, APP_NAME, BRAND_LOGO, PLANITY_URL } from '../constants';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { BLOG_POSTS } from '../data/blogPosts';
 import menuBg from '../src/4.png';
 
 export const Navbar: React.FC = () => {
@@ -31,6 +32,8 @@ export const Navbar: React.FC = () => {
       setSearchQuery('');
     }
   };
+
+  const isBlogPath = location.pathname === '/blog' || location.pathname.startsWith('/blog/');
 
   return (
     <>
@@ -232,20 +235,42 @@ export const Navbar: React.FC = () => {
                 'bg-saney-accent text-white hover:opacity-90',
                 'bg-saney-dark text-white hover:bg-black',
                 'bg-saney-accent text-white hover:opacity-90',
+                'bg-saney-gold text-white hover:bg-yellow-600',
               ];
               const activeStyle = 'ring-2 ring-offset-2 ring-saney-gold ring-offset-transparent';
+              const linkIsActive = link.href === '/blog'
+                ? isBlogPath
+                : location.pathname === link.href;
 
               return (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`block w-full py-4 px-6 rounded-xl text-center uppercase tracking-widest font-bold text-sm shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300
+                <div key={link.label} className="space-y-3">
+                  <Link
+                    to={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`block w-full py-4 px-6 rounded-xl text-center uppercase tracking-widest font-bold text-sm shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300
                     ${colorStyles[index % colorStyles.length]}
-                    ${location.pathname === link.href ? activeStyle : ''}`}
-                >
-                  {link.label}
-                </Link>
+                    ${linkIsActive ? activeStyle : ''}`}
+                  >
+                    {link.label}
+                  </Link>
+
+                  {link.href === '/blog' && (
+                    <div className="px-4 space-y-2">
+                      {BLOG_POSTS.map((post) => (
+                        <Link
+                          key={post.slug}
+                          to={`/blog/${post.slug}`}
+                          onClick={() => setIsOpen(false)}
+                          className={`block bg-white/80 border border-gray-200/80 px-4 py-3 text-sm text-saney-dark hover:border-saney-gold hover:text-saney-gold transition-colors ${
+                            location.pathname === `/blog/${post.slug}` ? 'border-saney-gold text-saney-gold' : ''
+                          }`}
+                        >
+                          {post.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               );
             })}
 

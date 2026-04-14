@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { APP_NAME, BRAND_LOGO } from '../constants';
+import { BLOG_POSTS } from '../data/blogPosts';
 
 export const Footer: React.FC = () => {
+  const featuredPosts = BLOG_POSTS.slice(0, 4);
+
   return (
     <footer className="bg-saney-dark text-white border-t border-white/10 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
           
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -26,6 +29,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/" className="hover:text-saney-gold transition-colors">Accueil</Link></li>
               <li><Link to="/about" className="hover:text-saney-gold transition-colors">Le Salon</Link></li>
               <li><Link to="/services" className="hover:text-saney-gold transition-colors">Prestations</Link></li>
+              <li><Link to="/blog" className="hover:text-saney-gold transition-colors">Blog</Link></li>
               <li><Link to="/contact" className="hover:text-saney-gold transition-colors">Prendre RDV</Link></li>
             </ul>
           </div>
@@ -37,6 +41,19 @@ export const Footer: React.FC = () => {
               <li>Extensions gel/acrygel</li>
               <li>Nail art signature</li>
               <li>Spa mains & pieds</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="uppercase text-sm font-bold tracking-widest mb-6 text-white">Blog SEO</h4>
+            <ul className="space-y-3 text-gray-400 text-sm">
+              {featuredPosts.map((post) => (
+                <li key={post.slug}>
+                  <Link to={`/blog/${post.slug}`} className="hover:text-saney-gold transition-colors">
+                    {post.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

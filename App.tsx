@@ -9,6 +9,8 @@ import { GalleryPage } from './pages/GalleryPage';
 import { ContactPage } from './pages/ContactPage';
 import { FormationsPage } from './pages/FormationsPage';
 import { ProductsPage } from './pages/ProductsPage';
+import { BlogPage } from './pages/BlogPage';
+import { BlogArticlePage } from './pages/blog/BlogArticlePage';
 import { LoginPage } from './pages/LoginPage';
 import { ClientSpacePage } from './pages/ClientSpacePage';
 import { LegalMentions } from './pages/legal/LegalMentions';
@@ -71,6 +73,8 @@ const App: React.FC = () => {
                 <Route path="/gallery" element={<GalleryPage />} />
                 <Route path="/formations" element={<FormationsPage />} />
                 <Route path="/products" element={<ProductsPage />} />
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/blog/:slug" element={<BlogArticlePage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 
                 {/* Legal Routes */}

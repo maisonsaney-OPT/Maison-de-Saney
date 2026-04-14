@@ -62,6 +62,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Accueil', href: '/' },
   { label: 'Le Salon', href: '/about' },
   { label: 'Prestations', href: '/services' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Formations', href: '/formations' },
   { label: 'Boutique', href: '/products' },
   { label: 'Galerie', href: '/gallery' },
